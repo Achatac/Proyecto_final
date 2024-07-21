@@ -9,155 +9,95 @@ struct Empleado {
 
 struct UsuarioHotel {
     string NombreUsuario;
-    string NroHabitacion;
-    float horashabitacion;
-    char clasehabitacion;
+    int NroHabitacion;
+    float HorasHabitacion;
+    char ClaseHabitacion;
 };
 
-int MatrizHabitaciones[100][100];
+const int MAX_HABITACIONES = 100;
+UsuarioHotel InformacionUsuario[MAX_HABITACIONES];
 
-string HabitacionOcupada[] = {"Ocupado" , "Desocupado"};
+int MatrizHabitaciones[MAX_HABITACIONES][MAX_HABITACIONES];
+string HabitacionOcupada[] = {"Ocupado", "Desocupado"};
 
-void vaciarMatriz ();
-
-void vaciarMatriz (){
-    for (int i = 0; i < 100 ; i++){
-        for (int j = 0; j < 100; j++){
-            Matrizhabitaciones[i][j] = 0;
+void vaciarMatriz() {
+    for (int i = 0; i < MAX_HABITACIONES; i++) {
+        for (int j = 0; j < MAX_HABITACIONES; j++) {
+            MatrizHabitaciones[i][j] = 0;
         }
-    } 
+    }
 }
 
-InformacionUsuario.UsuarioHotel[100];
-
-
-void RegistroUsuario(int Numero);
-
-void RegistroUsuario(int Numero){
-    cout << "por favor registre los datos de la persona" << endl;
+void RegistroUsuario(int Numero) {
+    cout << "Por favor registre los datos de la persona" << endl;
     cout << "Datos de la persona" << endl;
-    cout << "Nombre: "; cin >> NombreUsuario[Numero].UsuarioHotel;
-    cout << "Tiempo (h):"; cin >> horas[Numero].UsuarioHotel;
-    cout << "clase (a, b ,c)"; cin >> clase[Numero].UsuarioHotel;
+    cout << "Nombre: "; cin >> InformacionUsuario[Numero].NombreUsuario;
+    cout << "Tiempo (h): "; cin >> InformacionUsuario[Numero].HorasHabitacion;
+    cout << "Clase (a, b ,c): "; cin >> InformacionUsuario[Numero].ClaseHabitacion;
+    InformacionUsuario[Numero].NroHabitacion = Numero;
 }
 
-
-void OpcionSeleccionarHabitacion();
-
-void OpcionSeleccionarHabitacion(){
+void OpcionSeleccionarHabitacion() {
+    int opcionHabitacion;
     do {
-        int Numero;
-        int opcionHabitacion;
+        cout << "Habitaciones..." << endl;
+        for (int i = 0; i < 4; ++i) { // Limitar la visualización a 4 habitaciones por ahora 
+            cout << i + 1 << ".    A " << 100 + i << " [   " << HabitacionOcupada[MatrizHabitaciones[0][i]]  << "  ]" << endl;
+        }
 
-        cout << "habitaciones..." << endl;
-        if (Matrizhabitaciones[0] = 1){
-            cout << "1.    A 100" << "[   " << HabitacionOcupada[0]  << "  ]" << endl;
-        } else {
-            cout << "1.    A 100" << "[   " << HabitacionOcupada[1]  << "  ]" << endl;
-        }
-        if (Matrizhabitaciones[1] = 1){
-            cout << "1.    A 101" << "[   " << HabitacionOcupada[0]  << "  ]" << endl;
-        } else {
-            cout << "1.    A 101" << "[   " << HabitacionOcupada[1]  << "  ]" << endl;
-        }
-        if (Matrizhabitaciones[2] = 1){
-            cout << "1.    A 102" << "[   " << HabitacionOcupada[0]  << "  ]" << endl;
-        } else {
-            cout << "1.    A 102" << "[   " << HabitacionOcupada[1]  << "  ]" << endl;
-        } 
-        if (Matrizhabitaciones[3] = 1){
-            cout << "1.    A 103" << "[   " << HabitacionOcupada[0]  << "  ]" << endl;
-        } else {
-            cout << "1.    A 103" << "[   " << HabitacionOcupada[1]  << "  ]" << endl;
-        }
-        
-        cout << "    seleccione una habitacion ... "; cin >> opcionHabitacion;
-        switch (opcionHabitacion) {
-            case 1:
-                Numero = 0;
+        cout << "Seleccione una habitacion (0 para salir)... "; cin >> opcionHabitacion;
+        if (opcionHabitacion > 0 && opcionHabitacion <= 4) {
+            int Numero = opcionHabitacion - 1;
+            if (MatrizHabitaciones[0][Numero] == 0) {
                 RegistroUsuario(Numero);
-                break;
-            case 2:
-                Numero = 1;
-                RegistroUsuario(Numero);
-                break;
-            case 3:
-                Numero = 2;
-                RegistroUsuario(Numero);
-                break;
-            case 4: 
-                Numero = 3;
-                egistroUsuario(Numero);
-            case 0:
-                cout << "saliendo" << endl;
-                break;
-            default:
-                cout << "No valido. Intente de nuevo" << endl;
-                break;
+                MatrizHabitaciones[0][Numero] = 1; // Marcar la habitación como ocupada aunque deberia mandar desocupada 
+            } else {
+                cout << "Habitación ocupada por: " << InformacionUsuario[Numero].NombreUsuario << endl;
+            }
+        } else if (opcionHabitacion != 0) {
+            cout << "No válido. Intente de nuevo" << endl;
         }
     } while (opcionHabitacion != 0);
 }
 
-
-
-
-
-
-int main (){
-
-
-
+int main() {
     string NombreEmpleado, ContrasenaEmpleado;
 
     cout << "GESTOR DE HABITACIONES LAEX" << endl;
-    cout << "bienvenido" << endl;
+    cout << "Bienvenido" << endl;
 
+    cout << "Ingrese un nombre de usuario: "; cin >> NombreEmpleado;
+    cout << "Ingrese una contrasena: "; cin >> ContrasenaEmpleado;
+
+    cout << "Hola " << NombreEmpleado << endl;
+
+    int opcionOpcion;
     do {
-    cout << "ingrese un nombre de usuario: "; cin >> NombreEmpleado;
-    cout << "ingrese una contrasena: "; cin >> ContrasenaEmpleado;
+        cout << "Gestor de habitaciones..." << endl;
+        cout << "1. Seleccionar una habitacion" << endl;
+        cout << "2. Ver ganancias" << endl;
+        cout << "3. Opciones" << endl;
+        cout << "0. Salir " << endl;
+        cout << "Seleccione una opcion... "; cin >> opcionOpcion;
 
-    }
-
-    cout << "hola " << NombreUsuario << endl;
-
-
-    do {
-        int opcionOpcion;
-
-        cout << "gestor de habitaciones ..." << endl;
-
-        cout << "1.  selecccionar una habitacion" << endl;
-        cout << "2.  ver ganancias" << endl;
-        cout << "3.  opciones" << endl;
-        cout << "0.  salir " << endl;
-        cout << "seleccione una opcion..."; cin >> opcionOpcion;
-        switch (opcionOpcion){
+        switch (opcionOpcion) {
             case 1: 
                 OpcionSeleccionarHabitacion();
                 break;
             case 2: 
-                Verganancias();
+                // VerGanancias(); // Implementar esta función
                 break;
             case 3: 
-                OpcionesMenu();
+                // OpcionesMenu(); // Implementar esta función
                 break;
-            case 4:
-            int salirPrograma;
-                cout << "1.  continuar" << endl;
-                cout << "0.  salir " << endl;
-
-                cout << "de verdad desea salir? "; cin >> salirPrograma
-                if (salirPrograma != 0) {
-                cout << "saliendo..."
-                }
-                else {
-                    break;
-                }
+            case 0:
+                cout << "Saliendo..." << endl;
+                break;
+            default:
+                cout << "Opcion no valida. Intente de nuevo" << endl;
+                break;
         }
-    }
+    } while (opcionOpcion != 0);
 
-
-
-        cout << "seleccione una habitacion para visualizarla" << endl; 
+    return 0;
 }
-
